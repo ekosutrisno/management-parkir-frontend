@@ -1,0 +1,32 @@
+<div class="container-fluid">
+  <div class="card mt-3">
+    <div class="card-header">
+      <h2 class="ml-2">Parkir List Available</h2>
+      <p class="ml-2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt accusantium temporibus pariatur ipsa
+        iste! Autem? Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo blanditiis quasi excepturi sint,
+        providentquia odit veritatis nesciunt atque. Adipisci sequi molestias praesentium incidunt ipsum, unde cumque,
+        reiciendistemporibus minus commodi distinctio ea dignissimos debitis omnis, odio nemo pariatur error.
+      </p>
+      <button class="btn btn-primary ml-2">Add Parkir Slot</button>
+      <hr>
+      <div class="card-body">
+        <div *ngIf="parkir == null" class="m-1 bg-primary py-2 rounded">
+          <h4 class="text-center text-white font-weight-bolder">Maaf Slot Parkir Penuh!</h4>
+        </div>
+
+        <div class="row">
+          <div class="mt-2 d-flex flex-row justify-content-start flex-wrap">
+            <div *ngFor="let item of parkir" class="card m-1">
+              <div class="card-body">
+                <h1 class="font-weight-bold">{{item.nama}}
+                </h1>
+                <span *ngIf="cekStatus(item.isAvailable)" class="badge badge-primary badge-pill">{{status}}</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

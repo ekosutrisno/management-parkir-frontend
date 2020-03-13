@@ -1,0 +1,73 @@
+<div class="container-fluid">
+  <div class="card mt-3">
+    <div class="card-header">
+      <h2 class="ml-2">Kendaraan List Masuk</h2>
+      <p class="ml-2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt accusantium temporibus pariatur ipsa
+        iste!
+      </p>
+      <form (ngSubmit)="onSubmit()">
+        <div class="form-group ml-2">
+          <label for="input-search-dari">Nomor Plat Kendaraan</label>
+          <div class="input-group mb-3 w-50">
+            <input type="text" class="form-control" [(ngModel)]="platParameter" (keydown)="handleSubmit($event)"
+              (ngModelChange)="platParameter = $event.toUpperCase()" placeholder="Masukkan Plat nomor"
+              aria-label="Recipient's username" aria-describedby="basic-addon2" name="platParameter">
+            <div class="input-group-append">
+              <button class="btn btn-primary" type="submit">Search</button>
+            </div>
+          </div>
+        </div>
+      </form>
+      <hr>
+      <div class="card-body">
+        <div *ngIf="kendaraan == null" class="m-1 bg-primary py-2 rounded">
+          <h4 class="text-center text-white font-weight-bolder">Tidak ada Kendaraan Terparkir!</h4>
+        </div>
+
+        <div class="row">
+
+          <div class="mt-2 d-flex flex-row justify-content-start flex-wrap">
+            <div *ngFor="let item of kendaraan" class=" card m-1 shadow-sm data-k">
+              <div class="card-body" (dblclick)="open(content, item.id,item.parkiLot.id)">
+                <h1 class="font-weight-bold">{{item.platNomor}}
+                </h1>
+                <span *ngIf="cekStatus(item.isKeluar)" class="badge badge-danger badge-pill">{{status}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Detail Kendaraan Masuk</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ul class="list-group">
+      <li class="list-group-item">
+        <h3>Plat Nomor: <span class="font-weight-bolder">{{detailKendaraan.platNomor}}</span> </h3>
+      </li>
+      <li class="list-group-item">
+        <h3>Tipe: <span class="font-weight-bolder">{{detailKendaraan.tipe}}</span></h3>
+      </li>
+      <li class="list-group-item">
+        <h3>Warna: <span class="font-weight-bolder">{{detailKendaraan.warna}}</span></h3>
+      </li>
+      <li class="list-group-item">
+        <h3>Slot Parkir: <span class="font-weight-bolder">{{detailParkir.nama}}</span></h3>
+      </li>
+      <li class="list-group-item">
+        Status <span *ngIf="cekStatus(detailKendaraan.isKeluar)" class="badge badge-danger badge-pill">{{status}}</span>
+      </li>
+    </ul>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Keluar</button>
+  </div>
+</ng-template>

@@ -1,0 +1,53 @@
+<div class="container">
+  <div class="row p-4">
+    <div class="col-md">
+      <div class="card mb-3 p-4">
+        <h3>Form Keluar Kendaraan</h3>
+        <p>Berfungsi untuk mengecek berapa lama durasi kendaraan parkir dan menentukan jumlah biaya parkir.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h2>Nomor Plat Kendaraan Keluar</h2>
+        </div>
+        <div class="card-body">
+          <form (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <input type="text" class="form-control form-control-lg" id="platNomor" required [(ngModel)]="platNomor"
+                (ngModelChange)="platNomor = $event.toUpperCase()" name="platNomor" placeholder="Masukkan Plat Nomor"
+                required>
+            </div>
+            <div class="mt-4">
+              <button type="submit" class="btn btn-primary mr-3">Kendaraan Keluar</button>
+              <button type="button" class="btn btn-danger" (click)="clear()">Clear Screen</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="visibleOut" class="row p-4">
+    <div class="col-md mb-4">
+      <div class="list-group">
+        <div class="list-group-item list-group-item-action flex-column align-items-start active">
+          <h3>Plat nomor Kendaraan:</h3>
+          <div class="d-flex w-100 justify-content-between">
+            <h1 *ngIf="dataInfo != undefined" class="mb-1">{{dataInfo.platNomor}}</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md">
+      <div class="list-group">
+        <div class="list-group-item list-group-item-action flex-column align-items-start bg-success text-white">
+          <h3>Jumlah biaya parkir:</h3>
+          <div class="d-flex w-100 justify-content-between">
+            <h1 *ngIf="dataInfo != undefined" class="mb-1">Rp. {{dataInfo.jumlahBayar}}</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
