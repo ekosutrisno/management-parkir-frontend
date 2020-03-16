@@ -1,0 +1,10 @@
+.data-k {
+  cursor: pointer;
+  transition: 0.15s;
+}
+
+.data-k:hover {
+  transform: scale(1.09);
+  background-color: #9e0356;
+  color: white;
+}

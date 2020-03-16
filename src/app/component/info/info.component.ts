@@ -1,8 +1,9 @@
 import { Component, OnInit } from "@angular/core";
-
 import { Observable } from "rxjs";
+
 import { ParkirService } from "src/app/service/parkir.service";
 import { Parkir } from "src/app/model/parkir.model";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
 @Component({
   selector: "app-info",
@@ -10,17 +11,62 @@ import { Parkir } from "src/app/model/parkir.model";
   styleUrls: ["./info.component.css"]
 })
 export class InfoComponent implements OnInit {
-
   parkir: Observable<Parkir[]>;
-  id: number = 5;
   status: string;
+  buttonTxt: string = "Add Parkir Slot";
+  submitted = false;
+  showHide = false;
+  dataParkir: Parkir = new Parkir();
+  inputForm: FormGroup;
 
-  constructor(
-    private parkirService: ParkirService
-  ) {}
+  constructor(private parkirService: ParkirService, private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.getAllParkir();
+
+    this.inputForm = this.fb.group({
+      dataParkir: ["", Validators.required]
+    });
+  }
+
+  get f() {
+    return this.inputForm.controls;
+  }
+
+  onSubmit() {
+    this.submitted = true;
+    this.showHide = true;
+    this.addSlotParkir();
+    this.goToList();
+    this.dataParkir.nama = "";
+  }
+
+  goToList() {
+    this.getAllParkir();
+  }
+
+  handleSubmit(event: any) {
+    if (event.keyCode === 13) {
+      this.onSubmit();
+    }
+  }
+
+  newParkir() {
+    if (this.showHide == false) this.showHide = true;
+    else this.showHide = false;
+
+    this.submitted = false;
+    this.dataParkir = new Parkir();
+    this.btnTextChange();
+  }
+
+  addSlotParkir() {
+    if (this.inputForm.invalid) {
+      return;
+    } else {
+      this.parkirService.addParkir(this.dataParkir).subscribe();
+      this.submitted = false;
+    }
   }
 
   getAllParkir() {
@@ -33,5 +79,10 @@ export class InfoComponent implements OnInit {
     if (!tes == true) this.status = "Tersedia";
     else this.status = "Tersisi";
     return this.status;
+  }
+
+  btnTextChange() {
+    if (!this.showHide) this.buttonTxt = "Add Parkir Slot";
+    else this.buttonTxt = "Batal";
   }
 }
