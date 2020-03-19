@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Observable } from "rxjs";
 import { Router } from "@angular/router";
-import { FormBuilder, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 import { Kendaraan } from "src/app/model/kendaraan.model";
 import { Parkir } from "src/app/model/parkir.model";
@@ -16,8 +16,10 @@ import { KendaraanService } from "src/app/service/kendaraan.service";
 export class MasukComponent implements OnInit {
   kendaraan: Kendaraan = new Kendaraan();
   parkirLot: Parkir = new Parkir();
-  submitted: boolean = false;
+  submitted = false;
   listParkir: Observable<Parkir[]>;
+
+  formData: FormGroup;
 
   constructor(
     private kendaraanService: KendaraanService,
@@ -28,19 +30,31 @@ export class MasukComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllParkir();
+    this.formData = this.fb.group({
+      tipeK: ["", Validators.required],
+      warnaK: ["", Validators.required],
+      platNomorK: ["", Validators.required],
+      parkirLotK: ["", Validators.required]
+    });
   }
 
   newKendaraan(): void {
     this.submitted = false;
     this.kendaraan = new Kendaraan();
+    this.parkirLot.id = null;
+  }
+
+  get f() {
+    return this.formData.controls;
   }
 
   addKendaraan() {
     this.kendaraan.parkiLot = this.parkirLot;
-    return this.kendaraanService.addMobilMasuk(this.kendaraan).subscribe(
-      data => console.log(data),
-      err => console.log(err)
-    );
+    if (this.formData.invalid) {
+      return;
+    } else {
+      return this.kendaraanService.addMobilMasuk(this.kendaraan).subscribe();
+    }
   }
 
   getAllParkir() {
@@ -54,8 +68,7 @@ export class MasukComponent implements OnInit {
   }
 
   onSubmit() {
-    this.submitted = true;
     this.addKendaraan();
-    this.goToList();
+    this.submitted = true;
   }
 }

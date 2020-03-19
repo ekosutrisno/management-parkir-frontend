@@ -12,10 +12,12 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 })
 export class InfoComponent implements OnInit {
   parkir: Observable<Parkir[]>;
+  CekParkir: Observable<Parkir[]>;
   status: string;
   buttonTxt: string = "Add Parkir Slot";
   submitted = false;
   showHide = false;
+  duplicate = false;
   dataParkir: Parkir = new Parkir();
   inputForm: FormGroup;
 
@@ -34,6 +36,7 @@ export class InfoComponent implements OnInit {
   }
 
   onSubmit() {
+    this.getExistParkirName();
     this.submitted = true;
     this.showHide = true;
     this.addSlotParkir();
@@ -60,12 +63,26 @@ export class InfoComponent implements OnInit {
     this.btnTextChange();
   }
 
+  getExistParkirName() {
+    return this.parkirService
+      .getParkirByNama(this.dataParkir.nama)
+      .subscribe(data => {
+        this.CekParkir = data;
+        console.log(this.CekParkir);
+      });
+  }
+
   addSlotParkir() {
     if (this.inputForm.invalid) {
       return;
     } else {
-      this.parkirService.addParkir(this.dataParkir).subscribe();
-      this.submitted = false;
+      if (this.CekParkir != null) {
+        this.duplicate = true;
+        console.log(this.duplicate);
+      } else {
+        // this.parkirService.addParkir(this.dataParkir).subscribe();
+        this.submitted = false;
+      }
     }
   }
 

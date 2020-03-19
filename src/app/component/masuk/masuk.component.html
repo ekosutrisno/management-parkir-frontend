@@ -1,54 +1,76 @@
 <div class="container">
   <div class="row p-4">
     <div class="col-md">
-      <div [hidden]="submitted" class="card mt-3 w-auto mt-cst mx-auto maxs-w">
+      <div class="card mt-3 w-auto mt-cst mx-auto maxs-w">
         <div class="card-header">
           <h2>Add Keendaraan Masuk</h2>
         </div>
         <div class="card-body">
           <div>
-            <form (ngSubmit)="onSubmit()">
+            <form [formGroup]="formData" (ngSubmit)="onSubmit()">
               <div class="form-group">
                 <label for="name">Tipe Kendaraan</label>
-                <select type="text" class="form-control form-control-lg" id="tipe" required [(ngModel)]="kendaraan.tipe"
-                  (ngModelChange)="kendaraan.tipe = $event.toUpperCase()" name="tipe" required>
+                <select formControlName="tipeK" type="text" class="form-control" id="tipe" required
+                  [(ngModel)]="kendaraan.tipe" [ngClass]="{'is-invalid': submitted && f.tipeK.errors }" name="tipe"
+                  required>
                   <option value="SUV">SUV</option>
                   <option value="MPV">MPV</option>
                   <option value="SEDAN">SEDAN</option>
                   <option value="TRUK">TRUK</option>
                 </select>
+                <div *ngIf="submitted && f.tipeK.errors">
+                  <div *ngIf="submitted && f.tipeK.errors">
+                    <div *ngIf="f.tipeK.errors.required" class="small text-danger">Tipe kendaraan wajib diisi.</div>
+                  </div>
+                </div>
               </div>
 
               <div class="form-group">
                 <label for="name">Warna Kendaraan</label>
-                <input type="text" class="form-control form-control-lg" id="warna" required
-                  [(ngModel)]="kendaraan.warna" name="warna">
+                <input formControlName="warnaK" type="text" class="form-control" id="warna" required
+                  [ngClass]="{'is-invalid': submitted && f.warnaK.errors }" [(ngModel)]="kendaraan.warna" name="warna">
+                <div *ngIf="submitted && f.warnaK.errors">
+                  <div *ngIf="submitted && f.warnaK.errors">
+                    <div *ngIf="f.warnaK.errors.required" class="small text-danger">Warna Kendaraan wajib diisi.</div>
+                  </div>
+                </div>
               </div>
 
               <div class="form-group">
                 <label for="name">Plat Nomor</label>
-                <input type="text" class="form-control form-control-lg" id="platNomor" required
-                  [(ngModel)]="kendaraan.platNomor" (ngModelChange)="kendaraan.platNomor = $event.toUpperCase()"
+                <input formControlName="platNomorK" type="text" class="form-control" id="platNomor" required
+                  [ngClass]="{'is-invalid': submitted && f.platNomorK.errors }"
+                  (ngModelChange)="kendaraan.platNomor = $event.toUpperCase()" [(ngModel)]="kendaraan.platNomor"
                   name="platNomor">
+                <div *ngIf="submitted && f.platNomorK.errors">
+                  <div *ngIf="submitted && f.platNomorK.errors">
+                    <div *ngIf="f.platNomorK.errors.required" class="small text-danger">Plat nomor kendaraan tidak boleh
+                      kosong.</div>
+                  </div>
+                </div>
               </div>
 
               <div class="form-group">
                 <label for="name">Parkir Lot</label>
-                <select type="text" class="form-control form-control-lg" id="parkirLot" required
-                  [(ngModel)]="parkirLot.id" name="parkirLot">
+                <select formControlName="parkirLotK" type="text" class="form-control" id="parkirLot" required
+                  [ngClass]="{'is-invalid': submitted && f.parkirLotK.errors }" [(ngModel)]="parkirLot.id"
+                  name="parkirLot">
                   <option *ngIf="listParkir == null" value="" selected="selected">Slot Parkir Penuh</option>
                   <option *ngFor="let pk of listParkir" value={{pk.id}}>{{pk.nama}}</option>
                 </select>
+                <div *ngIf="submitted && f.parkirLotK.errors">
+                  <div *ngIf="submitted && f.parkirLotK.errors">
+                    <div *ngIf="f.parkirLotK.errors.required" class="small text-danger">Harus memilih slot parkir.</div>
+                  </div>
+                </div>
               </div>
               <button type="submit" class="btn btn-primary btn-block">Kendaraan Masuk</button>
             </form>
           </div>
+          <button type="button" class="btn btn-outline-danger btn-block mt-3" (click)="newKendaraan()">Reset
+            Form</button>
         </div>
       </div>
     </div>
   </div>
-</div>
-<div [hidden]="!submitted">
-  <h4>You submitted successfully!</h4>
-  <button class="btn btn-success" (click)="newKendaraan()">Add</button>
 </div>

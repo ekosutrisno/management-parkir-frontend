@@ -21,6 +21,12 @@ export class KendaraanService {
       .pipe(retry(1), catchError(this.handleError));
   }
 
+  searchKendaraanByWarna(warna: string): Observable<any> {
+    return this.http
+      .get(`${this.baseUrl}/all-warna?warna=${warna}`)
+      .pipe(retry(1), catchError(this.handleError));
+  }
+
   getAllKendaraan(): Observable<any> {
     return this.http.get(`${this.baseUrl}/all`);
   }

@@ -13,6 +13,12 @@
         </div>
       </div>
 
+      <div *ngIf="duplicate" class="col">
+        <div class="alert alert-danger">
+          <div>The name Has been Exist</div>
+        </div>
+      </div>
+
       <button class="btn btn-primary ml-2" (click)="newParkir()">{{buttonTxt}}</button>
       <div class="row" *ngIf="showHide" class="mt-4">
         <div class="col-md">

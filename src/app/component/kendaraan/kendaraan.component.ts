@@ -17,6 +17,7 @@ export class KendaraanComponent implements OnInit {
   detailParkir: Parkir = new Parkir();
   status: string;
   platParameter: string = "";
+  warnaParameter: string = "";
   closeResult: string;
 
   constructor(
@@ -28,6 +29,7 @@ export class KendaraanComponent implements OnInit {
   ngOnInit(): void {
     this.getAllKendaraan("");
   }
+
   getKendaraanById(id: number) {
     return this.kendaraanService.getKendaraanById(id).subscribe(data => {
       this.detailKendaraan = data;
@@ -36,8 +38,15 @@ export class KendaraanComponent implements OnInit {
   getParkirById(id: number) {
     return this.parkirService.getParkirById(id).subscribe(data => {
       this.detailParkir = data;
-      console.log(data);
     });
+  }
+
+  getAllKendaraanByWarna(warna: string) {
+    return this.kendaraanService
+      .searchKendaraanByWarna(warna)
+      .subscribe(kendaraan => {
+        this.kendaraan = kendaraan;
+      });
   }
 
   getAllKendaraan(platnomor: string) {
@@ -53,6 +62,7 @@ export class KendaraanComponent implements OnInit {
     else this.status = "Keluar";
     return this.status;
   }
+
   onSubmit() {
     this.getAllKendaraan(this.platParameter);
   }
@@ -60,6 +70,16 @@ export class KendaraanComponent implements OnInit {
   handleSubmit(event: any) {
     if (event.keyCode === 13) {
       this.getAllKendaraan(this.platParameter);
+    }
+  }
+
+  onSubmitWarna() {
+    this.getAllKendaraanByWarna(this.warnaParameter);
+  }
+
+  handleSubmitWarna(event: any) {
+    if (event.keyCode === 13) {
+      this.getAllKendaraanByWarna(this.warnaParameter);
     }
   }
 

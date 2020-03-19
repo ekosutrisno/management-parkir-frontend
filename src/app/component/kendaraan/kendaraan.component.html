@@ -5,20 +5,42 @@
       <p class="ml-2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt accusantium temporibus pariatur ipsa
         iste! <span class="font-weight-bold">Double Click untuk Detail</span>
       </p>
-      <form (ngSubmit)="onSubmit()">
-        <div class="form-group ml-2">
-          <label for="input-search-dari"><span class="font-weight-bolder">Nomor Plat Kendaraan</span></label>
-          <div class="input-group mb-3 w-50">
-            <input type="text" class="form-control form-control-lg" [(ngModel)]="platParameter"
-              (keydown)="handleSubmit($event)" (ngModelChange)="platParameter = $event.toUpperCase()"
-              placeholder="Masukkan Plat nomor" aria-label="Recipient's username" aria-describedby="basic-addon2"
-              name="platParameter">
-            <div class="input-group-append">
-              <button class="btn btn-primary" type="submit">Search</button>
+      <hr>
+      <div class="row">
+        <div class="col-md">
+          <form (ngSubmit)="onSubmit()">
+            <div class="form-group ml-2">
+              <label for="input-search-dari"><span class="font-weight-bolder">Masukkan Keyword Plat Nomor</span></label>
+              <div class="input-group mb-3 w-75">
+                <input type="text" class="form-control form-control-lg" [(ngModel)]="platParameter"
+                  (keydown)="handleSubmit($event)" (ngModelChange)="platParameter = $event.toUpperCase()"
+                  placeholder="Plat Nomor Kendaraan..." aria-label="Recipient's username"
+                  aria-describedby="basic-addon2" name="platParameter">
+                <div class="input-group-append">
+                  <button class="btn btn-primary" type="submit">Search</button>
+                </div>
+              </div>
             </div>
-          </div>
+          </form>
         </div>
-      </form>
+        <div class="col-md">
+          <form (ngSubmit)="onSubmitWarna()">
+            <div class="form-group ml-2">
+              <label for="input-search-dari"><span class="font-weight-bolder">Masukkan Keyword Warna</span></label>
+              <div class="input-group mb-3 w-75">
+                <input type="text" class="form-control form-control-lg" [(ngModel)]="warnaParameter"
+                  (keydown)="handleSubmitWarna($event)" (ngModelChange)="warnaParameter = $event.toUpperCase()"
+                  placeholder="Warna Kendaraan..." aria-label="Recipient's username" aria-describedby="basic-addon2"
+                  name="platParameter">
+                <div class="input-group-append">
+                  <button class="btn btn-success" type="submit">Search</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
       <hr>
       <div class="card-body">
         <div *ngIf="kendaraan == null" class="m-1 bg-primary py-2 rounded">
@@ -30,8 +52,7 @@
           <div class="mt-2 d-flex flex-row justify-content-start flex-wrap">
             <div *ngFor="let item of kendaraan" class=" card m-1 shadow-sm data-k">
               <div class="card-body" (dblclick)="open(content, item.id,item.parkiLot.id)">
-                <h1 class="font-weight-bold">{{item.platNomor}}
-                </h1>
+                <h1 class="font-weight-bold">{{item.platNomor}}</h1>
                 <span *ngIf="cekStatus(item.isKeluar)" class="badge badge-danger badge-pill">{{status}}</span>
               </div>
             </div>

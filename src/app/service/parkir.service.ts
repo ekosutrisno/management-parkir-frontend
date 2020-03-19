@@ -14,6 +14,10 @@ export class ParkirService {
     return this.http.get(`${this.baseUrl}/${id}`);
   }
 
+  getParkirByNama(nama: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/get-bynama?nama=${nama}`);
+  }
+
   getAllParkir(): Observable<any> {
     return this.http.get(`${this.baseUrl}/all`);
   }
