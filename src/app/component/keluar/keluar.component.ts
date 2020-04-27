@@ -2,7 +2,6 @@ import { Component, OnInit } from "@angular/core";
 
 import { KendaraanService } from "../../service/kendaraan.service";
 import { ResponseByPlatNomor } from "../../model/responseByPlatNomor.model";
-import { Observable } from "rxjs";
 
 @Component({
   selector: "app-keluar",

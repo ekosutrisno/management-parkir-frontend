@@ -1,9 +1,9 @@
 <div class="container-fluid">
-  <div class="card mt-3 mt-custom">
+  <div class="card mt-3 mt-custom mb-5">
     <div class="card-header">
       <h2 class="ml-2">Kendaraan List Masuk</h2>
       <p class="ml-2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt accusantium temporibus pariatur ipsa
-        iste! <span class="font-weight-bold">Double Click untuk Detail</span>
+        iste! <span class="font-weight-bold">Click untuk Detail</span>
       </p>
       <hr>
       <div class="row">
@@ -43,16 +43,18 @@
 
       <hr>
       <div class="card-body">
-        <div *ngIf="kendaraan == null" class="m-1 bg-primary py-2 rounded">
+        <div *ngIf="!kendaraan" class="m-1 bg-primary py-2 rounded">
           <h4 class="text-center text-white font-weight-bolder">Tidak ada Kendaraan Terparkir!</h4>
         </div>
 
         <div class="row">
-
-          <div class="mt-2 d-flex flex-row justify-content-start flex-wrap">
-            <div *ngFor="let item of kendaraan" class=" card m-1 shadow-sm data-k">
-              <div class="card-body" (dblclick)="open(content, item.id,item.parkiLot.id)">
-                <h1 class="font-weight-bold">{{item.platNomor}}</h1>
+          <div class="mt-2 d-flex flex-row justify-content-center flex-wrap">
+            <div *ngFor="let item of kendaraan" class=" card m-1 shadow-sm data-k" style="min-width: 18rem;">
+              <div class="card-body text-center" (click)="open(content, item.id,item.parkiLot.id)">
+                <h1 class="font-weight-bold">
+                  <i class="fa fa-fw fa-car-side text-success"></i> <br>
+                  {{item.platNomor}}
+                </h1>
                 <span *ngIf="cekStatus(item.isKeluar)" class="badge badge-danger badge-pill">{{status}}</span>
               </div>
             </div>

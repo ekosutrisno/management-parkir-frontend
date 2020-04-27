@@ -3,7 +3,6 @@ import { Observable } from "rxjs";
 
 import { ParkirService } from "src/app/service/parkir.service";
 import { Parkir } from "src/app/model/parkir.model";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
 @Component({
   selector: "app-info",
@@ -19,33 +18,36 @@ export class InfoComponent implements OnInit {
   showHide = false;
   duplicate = false;
   dataParkir: Parkir = new Parkir();
-  inputForm: FormGroup;
+  valid: boolean = true;
+  err: boolean = false;
 
-  constructor(private parkirService: ParkirService, private fb: FormBuilder) {}
+  constructor(private parkirService: ParkirService) {}
 
   ngOnInit(): void {
     this.getAllParkir();
-
-    this.inputForm = this.fb.group({
-      dataParkir: ["", Validators.required]
-    });
   }
 
-  get f() {
-    return this.inputForm.controls;
-  }
 
   onSubmit() {
-    this.getExistParkirName();
-    this.submitted = true;
-    this.showHide = true;
-    this.addSlotParkir();
-    this.goToList();
-    this.dataParkir.nama = "";
-  }
+    if (this.dataParkir.nama == null) {
+      this.valid = false;
+    } else {
+      this.valid = true;
+     }
+      this.getExistParkirName();
+      this.submitted = true;
+      this.showHide = true;
+      this.addSlotParkir();
+      this.dataParkir.nama = "";
+      this.goToList();
+      this.valid = true;
+ 
 
+  }
+  
   goToList() {
-    this.getAllParkir();
+    this.ngOnInit();
+    this.dataParkir = new Parkir();
   }
 
   handleSubmit(event: any) {
@@ -68,19 +70,18 @@ export class InfoComponent implements OnInit {
       .getParkirByNama(this.dataParkir.nama)
       .subscribe(data => {
         this.CekParkir = data;
-        console.log(this.CekParkir);
       });
   }
 
   addSlotParkir() {
-    if (this.inputForm.invalid) {
-      return;
+    if (this.valid == false) {
+      this.err = true;
     } else {
       if (this.CekParkir != null) {
         this.duplicate = true;
-        console.log(this.duplicate);
       } else {
-        // this.parkirService.addParkir(this.dataParkir).subscribe();
+        this.err = false;
+        this.parkirService.addParkir(this.dataParkir).subscribe();
         this.submitted = false;
       }
     }

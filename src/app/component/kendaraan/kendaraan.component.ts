@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { KendaraanService } from "src/app/service/kendaraan.service";
 import { Kendaraan } from "src/app/model/kendaraan.model";
-import { Observable, throwError } from "rxjs";
+import { Observable} from "rxjs";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import { ParkirService } from "src/app/service/parkir.service";
 import { Parkir } from "src/app/model/parkir.model";
